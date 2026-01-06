@@ -17,7 +17,7 @@ public class ProcessPaymentWebhookService implements ProcessPaymentWebhookUseCas
     }
 
     @Override
-    @Transactional
+
     public void execute(Long orderId, String paymentStatus) {
         Order order = orderRepositoryPort.findById(orderId)
                 .orElseThrow(() -> new OrderNotFoundException("Pedido não encontrado com ID: " + orderId));
