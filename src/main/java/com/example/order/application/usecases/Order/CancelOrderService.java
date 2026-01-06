@@ -14,7 +14,7 @@ public class CancelOrderService implements CancelOrderUseCase {
         this.orderRepositoryPort = orderRepositoryPort;
     }
     @Override
-    @Transactional
+
     public Order execute(Long orderId) {
         Order order = orderRepositoryPort.findById(orderId)
                 .orElseThrow(() -> new OrderNotFoundException("Pedido não encontrado com ID: " + orderId));

@@ -27,7 +27,7 @@ public class CreateOrderService implements CreateOrderUseCase {
     }
 
     @Override
-    @Transactional
+
     public MercadoPagoPaymentResponseDTO execute(Order order) {
         Order savedOrder = orderRepositoryPort.save(order);
 

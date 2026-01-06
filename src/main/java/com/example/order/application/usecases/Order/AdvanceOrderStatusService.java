@@ -14,7 +14,7 @@ public class AdvanceOrderStatusService implements AdvanceOrderStatusUseCase {
         this.orderRepositoryPort = orderRepositoryPort;
     }
     @Override
-    @Transactional
+
     public Order execute(Long orderId) {
         Order order = orderRepositoryPort.findById(orderId)
                 .orElseThrow(() -> new OrderNotFoundException("Order not found with ID: " + orderId));
