@@ -7,7 +7,9 @@ COPY pom.xml .
 
 # Adicionamos -U para forçar a atualização e ignorar falhas de cache
 # E removemos o go-offline se ele continuar dando erro, indo direto para o package
-RUN mvn dependency:go-offline -U
+--RUN mvn dependency:go-offline -U
+COPY src ./src
+RUN mvn package -DskipTests
 
 COPY src ./src
 RUN mvn package -DskipTests -U
