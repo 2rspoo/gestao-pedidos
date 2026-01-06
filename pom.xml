@@ -70,7 +70,7 @@
 		</dependency>
 
 	</dependencies>
-
+	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	<build>
 		<plugins>
 			<plugin>
