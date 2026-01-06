@@ -5,7 +5,7 @@ import com.example.order.application.ports.out.OrderRepositoryPort;
 import com.example.order.domain.entities.Order;
 import com.example.order.shared.exceptions.OrderNotFoundException;
 import org.springframework.stereotype.Service;
-import jakarta.transaction.Transactional;
+//import jakarta.transaction.Transactional;
 
 @Service
 public class AdvanceOrderStatusService implements AdvanceOrderStatusUseCase {
