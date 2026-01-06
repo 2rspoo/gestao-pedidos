@@ -8,7 +8,7 @@ import com.example.order.webhook.ProcessPaymentWebhookUseCase;
 import com.example.order.domain.entities.Order;
 import com.example.order.webhook.MercadoPagoPaymentResponseDTO;
 import org.springframework.stereotype.Service;
-import jakarta.transaction.Transactional;
+//import jakarta.transaction.Transactional;
 
 import java.util.concurrent.TimeUnit;
 

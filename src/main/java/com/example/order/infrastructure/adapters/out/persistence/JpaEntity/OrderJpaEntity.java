@@ -1,13 +1,13 @@
 // src/main/java/com/example/order/infrastructure/adapters/out/persistence/OrderJpaEntity.java
 package com.example.order.infrastructure.adapters.out.persistence.JpaEntity;
+import com.amazonaws.services.dynamodbv2.datamodeling.*;
 
 import com.example.order.domain.entities.Order;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-@Entity
-@Table(name = "orderqueue")
+@DynamoDBTable(tableName = "orderqueue")
 public class OrderJpaEntity {
 
     @Id
