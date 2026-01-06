@@ -1,11 +1,21 @@
-# Alteramos para uma imagem que existe e é mantida
-FROM eclipse-temurin:17-jre-jammy
-
-# Criamos um diretório para a aplicação (boa prática)
+# Estágio 1: Build
+FROM maven:3.9.6-eclipse-temurin-21 AS builder
 WORKDIR /app
 
-# Copiamos o arquivo do diretório target para dentro da imagem
-COPY target/cardapio-0.0.1-SNAPSHOT.jar app.jar
+# Copia o pom.xml
+COPY pom.xml .
 
-# Corrigimos o comando para apontar para o local certo
-CMD ["java", "-jar", "app.jar"]
+# Adicionamos -U para forçar a atualização e ignorar falhas de cache
+# E removemos o go-offline se ele continuar dando erro, indo direto para o package
+RUN mvn dependency:go-offline -U
+
+COPY src ./src
+RUN mvn package -DskipTests -U
+
+# Estágio 2: Runtime
+FROM eclipse-temurin:21-jre-alpine
+WORKDIR /app
+COPY --from=builder /app/target/*.jar app.jar
+
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]
