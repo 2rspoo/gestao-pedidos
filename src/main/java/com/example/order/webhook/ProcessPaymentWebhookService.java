@@ -4,7 +4,6 @@ package com.example.order.webhook;
 import com.example.order.application.ports.out.OrderRepositoryPort;
 import com.example.order.domain.entities.Order;
 import com.example.order.shared.exceptions.OrderNotFoundException;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
