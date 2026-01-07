@@ -16,11 +16,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
-public class OrderJpaAdapter implements OrderRepositoryPort {
+public class OrderDynamoAdapter implements OrderRepositoryPort {
 
     private final DynamoDBMapper dynamoDBMapper;
 
-    public OrderJpaAdapter(AmazonDynamoDB amazonDynamoDB) {
+    public OrderDynamoAdapter(AmazonDynamoDB amazonDynamoDB) {
         this.dynamoDBMapper = new DynamoDBMapper(amazonDynamoDB);
     }
 
