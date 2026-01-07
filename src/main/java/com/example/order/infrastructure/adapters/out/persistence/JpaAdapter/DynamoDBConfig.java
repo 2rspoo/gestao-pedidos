@@ -1,4 +1,4 @@
-package com.example.order.infrastructure.config;
+package com.example.order.infrastructure.adapters.out.persistence.JpaAdapter;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
