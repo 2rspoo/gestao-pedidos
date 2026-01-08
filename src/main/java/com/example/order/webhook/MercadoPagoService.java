@@ -14,7 +14,7 @@ import java.util.Collections;
 @Profile("prod") // <-- Ativada apenas quando o perfil 'prod' está ativo
 public class MercadoPagoService implements PaymentServicePort {
 
-    @Value("${mercadopago.access.token}")
+    @Value("${mercadopago.access.token:dummy_token}")
     private String accessToken;
     @Value("${mercadopago.user.id}")
     private String userId;
