@@ -5,7 +5,7 @@ import com.example.order.domain.entities.Order;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-@DynamoDBTable(tableName = "orderqueue")
+@DynamoDBTable(tableName = "pedidos")
 public class OrderJpaEntity {
 
     private Long id;
