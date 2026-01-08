@@ -44,7 +44,7 @@ public class OrderJpaEntity {
     public void setStep(String step) { this.step = step; }
 
     // Conversores para tipos Java 8 Date/Time
-    @DynamoDBTypeConvertedTimestamp
+
     @DynamoDBAttribute(attributeName = "date")
     public LocalDate getDate() { return date; }
     public void setDate(LocalDate date) { this.date = date; }
