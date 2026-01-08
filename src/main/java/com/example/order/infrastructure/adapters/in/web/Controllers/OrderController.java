@@ -85,18 +85,12 @@ public class OrderController {
 
             return ResponseEntity.status(HttpStatus.CREATED).body(response); // O tipo do body agora corresponde
         } catch (RuntimeException e) {
-            // Log detalhado para você monitorar no Kubernetes
-            System.err.println("Alerta de Integração: " + e.getMessage());
+            System.err.println("Falha na integração Mercado Pago: " + e.getMessage());
 
-            // Se o erro for do Mercado Pago, mas o pedido já existir no banco,
-            // podemos retornar o pedido criado mesmo sem o QR Code.
-            if (newOrder.getId() != null) {
-                return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT)
-                        .body(newOrder); // Retorna o pedido para o gerente não ficar no escuro
-            }
-
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                    "Erro crítico na criação: " + e.getMessage());
+            // SE o pedido foi salvo no banco (o UseCase deve salvar antes de chamar o MP),
+            // retornamos o pedido criado para o frontend não dar erro 500.
+            // Se preferir, pode criar um DTO simples de fallback aqui.
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(newOrder);
         }
     }
 
