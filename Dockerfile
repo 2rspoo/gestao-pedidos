@@ -9,7 +9,7 @@ COPY pom.xml .
 # E removemos o go-offline se ele continuar dando erro, indo direto para o package
 
 COPY src ./src
-RUN mvn package -DskipTests
+RUN mvn package -DskipTests -Dmaven.test.skip=true
 
 COPY src ./src
 RUN mvn package -DskipTests -U
