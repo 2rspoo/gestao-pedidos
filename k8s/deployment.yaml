@@ -37,9 +37,11 @@ spec:
               value: us-east-1
             - name: DYNAMODB_TABLE_NAME
               value: "Pedidos"
-            - name: MERCADOPAGO_USER_ID
-              value: "123456" # Pode ser um valor fictício para subir agora
             - name: MERCADOPAGO_ACCESS_TOKEN
-              value: "TEST-TOKEN-123" # Pode ser fictício para destravar o sistema
-            - name: MERCADOPAGO_EXTERNAL_POS_ID
+              value: "TEST-TOKEN-123"
+            - name: MERCADOPAGO_USER_ID
+              value: "123456"
+            - name: MERCADOPAGO_POS_ID # Esta é a que faltava agora!
               value: "POS01"
+            - name: MERCADOPAGO_EXTERNAL_POS_ID
+              value: "POS_EXT_01"
