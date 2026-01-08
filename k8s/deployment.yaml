@@ -36,3 +36,8 @@ spec:
             - name: AWS_REGION
               value: us-east-1
             - name: DYNAMODB_TABLE_NAME
+              value: "Pedidos"
+            - name: MERCADOPAGO_USER_ID
+              value: "meu_user_id_generico"
+            - name: MERCADOPAGO_ACCESS_TOKEN
+              value: "meu_token_generico"
