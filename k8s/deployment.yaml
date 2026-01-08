@@ -38,6 +38,8 @@ spec:
             - name: DYNAMODB_TABLE_NAME
               value: "Pedidos"
             - name: MERCADOPAGO_USER_ID
-              value: "meu_user_id_generico"
+              value: "123456" # Pode ser um valor fictício para subir agora
             - name: MERCADOPAGO_ACCESS_TOKEN
-              value: "meu_token_generico"
+              value: "TEST-TOKEN-123" # Pode ser fictício para destravar o sistema
+            - name: MERCADOPAGO_EXTERNAL_POS_ID
+              value: "POS01"
