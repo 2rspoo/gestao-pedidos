@@ -12,7 +12,7 @@ COPY src ./src
 RUN mvn package -DskipTests -Dmaven.test.skip=true
 
 COPY src ./src
-RUN mvn package -DskipTests -U
+RUN mvn package -DskipTests -Dmaven.test.skip=true -U
 
 # Estágio 2: Runtime
 FROM eclipse-temurin:21-jre-alpine
