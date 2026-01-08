@@ -18,7 +18,8 @@ public class Order {
 
     // Construtor para a criação de um novo pedido.
     // O status de pagamento é inicializado como "PENDENTE" por padrão.
-    public Order(Long idcustomer, String step, Integer price, String details) {
+    public Order(Long id, Long idcustomer, String step, Integer price, String details) {
+        this.id = System.currentTimeMillis();
         this.idcustomer = idcustomer;
         this.step = "RECEBIDO";
         this.price = price;
