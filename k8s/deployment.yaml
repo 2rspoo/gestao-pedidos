@@ -23,7 +23,16 @@ spec:
           ports:
             - containerPort: 8080
           env:
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: aws-credentials
+                  key: access-key
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws-credentials
+                  key: secret-key
             - name: AWS_REGION
-              value: "us-east-1" # Altere se a sua região for outra
+              value: us-east-1
             - name: DYNAMODB_TABLE_NAME
-              value: "Pedidos"
