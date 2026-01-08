@@ -77,19 +77,18 @@ public class OrderController {
     })
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<MercadoPagoPaymentResponseDTO> createOrder(@RequestBody OrderRequestDTO orderRequestDTO) {
+    public ResponseEntity<Object> createOrder(@RequestBody OrderRequestDTO orderRequestDTO) {
         Order newOrder = OrderRequestDTO.toDomain(orderRequestDTO);
 
         try {
-            MercadoPagoPaymentResponseDTO response = createOrderUseCase.execute(newOrder); // O retorno é do tipo MercadoPagoPaymentResponseDTO
+            // Aqui o Java aceita porque MercadoPagoPaymentResponseDTO é um Object
+            MercadoPagoPaymentResponseDTO response = createOrderUseCase.execute(newOrder);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
-            return ResponseEntity.status(HttpStatus.CREATED).body(response); // O tipo do body agora corresponde
         } catch (RuntimeException e) {
             System.err.println("Falha na integração Mercado Pago: " + e.getMessage());
 
-            // SE o pedido foi salvo no banco (o UseCase deve salvar antes de chamar o MP),
-            // retornamos o pedido criado para o frontend não dar erro 500.
-            // Se preferir, pode criar um DTO simples de fallback aqui.
+            // Agora o Java aceita retornar 'newOrder' porque Order também é um Object!
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(newOrder);
         }
     }
