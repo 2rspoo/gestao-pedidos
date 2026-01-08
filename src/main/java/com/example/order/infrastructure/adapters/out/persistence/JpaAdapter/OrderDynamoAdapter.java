@@ -52,6 +52,9 @@ public class OrderDynamoAdapter implements OrderRepositoryPort {
 
     @Override
     public Order save(Order order) {
+        if (order.getId() == null) {
+            order.setId(System.currentTimeMillis());
+        }
         OrderJpaEntity entity = OrderJpaEntity.fromDomain(order);
         dynamoDBMapper.save(entity);
         return entity.toDomain();
