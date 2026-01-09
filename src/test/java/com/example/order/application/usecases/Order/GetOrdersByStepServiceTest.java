@@ -45,7 +45,7 @@ class GetOrdersByStepServiceTest {
         // Act
         List<Order> resultado = getOrdersByStepService.execute(statusProcurado);
 
-        // Assert
+        // Assert 1
         assertThat(resultado).hasSize(2);
         assertThat(resultado).extracting(Order::getStep).containsOnly(statusProcurado);
 
