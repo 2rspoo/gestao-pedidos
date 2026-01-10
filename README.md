@@ -47,7 +47,6 @@ O projeto foi estruturado para garantir o desacoplamento entre a regra de negóc
 ### Configuração de Ambiente
 Crie um arquivo `application-prod.properties` ou configure as variáveis de ambiente necessárias para a integração com o Mercado Pago e DynamoDB:
 
-```properties
 # DynamoDB (Local ou AWS)
 aws.access.key=SEU_ACCESS_KEY
 aws.secret.key=SEU_SECRET_KEY
@@ -62,6 +61,7 @@ mercadopago.webhook.url=SEU_WEBHOOK_URL
 Executando a Aplicação
 Bash
 mvn spring-boot:run -Dspring-boot.run.profiles=prod
+
 🧪 Testes e Qualidade
 O projeto possui uma suíte de testes unitários robusta cobrindo Use Cases, Domain, Adapters e Controllers.
 Rodar Testes
@@ -84,7 +84,9 @@ O sistema segue uma máquina de estados estrita para garantir a consistência:
 3.	PRONTO: Preparo finalizado, aguardando retirada.
 4.	FINALIZADO: Pedido entregue ao cliente.
 5.	CANCELADO: Caso o pagamento seja recusado ou cancelado manualmente.
+   
 Nota: A listagem de pedidos (GetAllOrders) prioriza pedidos PRONTOS > PREPARO > RECEBIDO e filtra os finalizados/cancelados.
+
 🔌 API Endpoints (Resumo)
 Método	Endpoint	Descrição
 POST	/orders	Cria um novo pedido e gera QR Code
@@ -97,4 +99,5 @@ ______________________________________________________________________________
 Acesso ao Frontend da Aplicação:
 
 Abra o arquivo index.html, webhook ou stress.html diretamente no seu navegador. As interfaces carregarão os dados da API.
+
 
