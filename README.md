@@ -4,142 +4,97 @@ Contribuições:
 Camila Rabello Spoo Goshima - Discord: camilaspoo - 11 973091025
 Rodrigo Rabello Spoo - Discord: srsinistro9459 - 11 981046096
 
-Descrição:
-Este projeto é um sistema de pedidos fast food, onde o cliente pode escolher os produtos do seu pedido e acompanhar o status em tempo real, sem a necessidade de interação humana direta para o avanço das fases do pedido.
-
 Vídeo:
 https://www.youtube.com/watch?v=oYuT7maHG5g
 
 Repositório:
 https://github.com/CRASPOO/SistemaPedidos
 
-Arquitetura da Solução
-Como arquiteto de software, o design desta solução visa atender aos requisitos de negócio e infraestrutura, garantindo robustez, escalabilidade e observabilidade em um ambiente de desenvolvimento local.
+# 🍔 API de Gestão de Pedidos 
+Este projeto é um microsserviço para gestão de pedidos de uma lanchonete, desenvolvido seguindo os princípios da **Arquitetura Hexagonal (Ports and Adapters)**. O sistema gerencia o ciclo de vida do pedido, desde a recepção, pagamento (integração com Mercado Pago), preparação até a finalização.
 
-Requisitos de Negócio
-Gestão Completa de Pedidos: Capacidade de criar novos pedidos, visualizar o histórico e avançar o status de cada pedido (ex: "recebido", "em preparação", "pronto para entrega").
+![Java](https://img.shields.io/badge/Java-21-orange)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4.1-green)
+![Coverage](https://img.shields.io/badge/Coverage-Jacoco-success)
+![Build](https://img.shields.io/badge/Build-Maven-blue)
 
-Processamento de Pagamentos: 
-Gerenciamento do status de pagamentos (pendente, aprovado, recusado) via webhook.
+## 🏛️ Arquitetura
 
-Catálogo de Produtos Dinâmico: 
-Exibição de produtos organizados por categorias, com informações detalhadas.
+O projeto foi estruturado para garantir o desacoplamento entre a regra de negócio e as tecnologias externas:
 
-Alta Disponibilidade e Resiliência: 
-A aplicação deve ser capaz de operar continuamente, mesmo sob condições de falha de componentes.
+* **Domain:** Entidades e regras de negócio centrais (`Order`, etc).
+* **Application (Use Cases):** Implementação dos casos de uso (`CreateOrder`, `AdvanceStatus`, `GetAllOrders`, etc).
+* **Ports (In/Out):** Interfaces que definem a entrada e saída do core da aplicação.
+* **Infrastructure (Adapters):** Implementações reais das portas (DynamoDB Repository, Mercado Pago Service, Rest Controllers).
 
-Escalabilidade Automática (Autoscaling): 
-A capacidade de processamento da aplicação deve se adaptar dinamicamente ao volume de requisições, aumentando ou diminuindo o número de instâncias da aplicação conforme a demanda.
+## 🛠️ Tecnologias Utilizadas
 
-Validação de Desempenho: 
-Ferramentas integradas para simular picos de tráfego e validar o comportamento de escalabilidade da aplicação.
+* **Linguagem:** Java 21
+* **Framework:** Spring Boot 3.4.1
+* **Banco de Dados:** Amazon DynamoDB
+* **Pagamentos:** Integração via QR Code com API do Mercado Pago
+* **Testes:** JUnit 5, Mockito
+* **Qualidade de Código:** JaCoCo (Cobertura), SonarQube
+* **Containerização:** Docker (Opcional para ambiente local)
 
-Requisitos de Infraestrutura (Docker Desktop Local)
-A infraestrutura foi projetada para ser executada localmente no Kubernetes do Docker Desktop, um ambiente que replica funcionalidades de um cluster Kubernetes de produção de forma leve e eficiente.
+## 🚀 Como Rodar o Projeto
 
-Os componentes-chave da arquitetura são:
+### Pré-requisitos
+* Java 21 SDK instalado
+* Maven instalado
+* Docker (para rodar o SonarQube localmente, se desejar)
 
-Deployment: Gerencia o ciclo de vida dos pods da aplicação (spring-app-deployment) e do banco de dados (postgres-db-deployment). Garante que o número desejado de réplicas esteja sempre em execução e que a aplicação se recupere automaticamente em caso de falhas.
+### Configuração de Ambiente
+Crie um arquivo `application-prod.properties` ou configure as variáveis de ambiente necessárias para a integração com o Mercado Pago e DynamoDB:
 
-Service: Expõe as aplicações dentro e fora do cluster.
+```properties
+# DynamoDB (Local ou AWS)
+aws.access.key=SEU_ACCESS_KEY
+aws.secret.key=SEU_SECRET_KEY
+aws.region=us-east-1
 
-db-service (ClusterIP): Permite que a aplicação Spring Boot se comunique com o banco de dados PostgreSQL internamente no cluster, usando um nome de serviço estável.
+# Mercado Pago
+mercadopago.api.url=[https://api.mercadopago.com](https://api.mercadopago.com)
+mercadopago.access.token=SEU_ACCESS_TOKEN
+mercadopago.user.id=SEU_USER_ID
+mercadopago.pos.id=SEU_POS_ID
+mercadopago.webhook.url=SEU_WEBHOOK_URL
+Executando a Aplicação
+Bash
+mvn spring-boot:run -Dspring-boot.run.profiles=prod
+🧪 Testes e Qualidade
+O projeto possui uma suíte de testes unitários robusta cobrindo Use Cases, Domain, Adapters e Controllers.
+Rodar Testes
+Bash
+mvn clean test
+Relatório de Cobertura (JaCoCo)
+Após rodar os testes, o relatório HTML estará disponível em:
+target/site/jacoco/index.html
+http://localhost:63342/gestao-pedidos/cardapio/target/site/jacoco/index.html?_ijt=og6voocemr71mb4umrtner7065&_ij_reload=RELOAD_ON_SAVE
 
-spring-app-service (NodePort): Expõe a API da aplicação Spring Boot para acesso externo (ex: navegador, Postman) através de uma porta específica do nó (30001 no Docker Desktop).
+Análise de Código (SonarQube)
+Para enviar as métricas para o SonarQube (certifique-se de ter um servidor Sonar rodando):
+Bash
+mvn clean verify sonar:sonar -Dsonar.token=SEU_TOKEN
 
-HorizontalPodAutoscaler (HPA): O componente central para a escalabilidade automática da aplicação spring-app. Ele monitora a utilização de CPU dos pods da aplicação e, se o uso exceder um limite configurado (ex: 70%), o HPA aumenta o número de réplicas até o máximo definido. Quando a carga diminui, ele reduz as réplicas. O HPA depende do Metrics Server.
-
-Metrics Server: Essencial para o funcionamento do HPA. Ele coleta métricas de uso de recursos (CPU e memória) dos pods e nós do cluster e as disponibiliza para o Kubernetes API Server, que por sua vez as fornece ao HPA.
-
-PersistentVolumeClaim (PVC): O postgres-db-pvc solicita armazenamento persistente para o banco de dados PostgreSQL, garantindo que os dados não sejam perdidos mesmo que o pod do banco de dados seja reiniciado ou movido.
-
-Secrets e ConfigMaps: Utilizados para gerenciar a configuração da aplicação e credenciais de forma segura e desacoplada do código.
-
-db-init-script: Um ConfigMap que contém scripts SQL para inicialização do banco de dados.
-
-Pré-requisitos
-Certifique-se de que os seguintes softwares estão instalados e configurados no seu ambiente:
-
-Java Development Kit (JDK): Versão 17 ou superior.
-
-Docker Desktop: Com o Kubernetes habilitado nas configurações (Settings > Kubernetes > Enable Kubernetes).
-
-kubectl: A ferramenta de linha de comando para interagir com o cluster Kubernetes.
-
-Helm: O gerenciador de pacotes do Kubernetes.
-
-Instalação do Chocolatey (para Windows, se não tiver):
-Abra o PowerShell como Administrador e execute:
-Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-Importante: Feche e reabra o PowerShell como Administrador após a instalação do Chocolatey.
-Instalação do Helm (após Chocolatey):
-Abra o PowerShell como Administrador e execute:
-choco install kubernetes-helm
-Importante: Feche e reabra o PowerShell como Administrador novamente para que o comando helm seja reconhecido.
-
-Instalação Aplicação
-Siga estes passos para configurar e implantar o projeto no seu cluster Kubernetes local.
-
-Clone o repositório:
-git clone https://github.com/CRASPOO/SistemaPedidos
-
-Construa a imagem Docker da sua aplicação Spring Boot:
-Navegue até o diretório raiz do seu projeto Spring Boot (onde está o Dockerfile).
-docker build -t order .
-
-Após a construção da imagem, volte para o diretório kubernetes:
-Implante os recursos do Kubernetes (Ordem Importante!):
-
-Recursos da Base de Dados (PostgreSQL):
-
-kubectl apply -f db-secrets.yaml
-kubectl apply -f db-config.yaml
-kubectl apply -f db-init-config.yaml
-kubectl apply -f postgres-pvc.yaml
-kubectl apply -f db-deployment.yaml
-kubectl apply -f db-service.yaml
-
-Recursos da Aplicação Spring Boot:
-
-kubectl apply -f api-deployment.yaml
-kubectl apply -f api-service.yaml
-
-Instale o Metrics Server (via Helm):
-
-helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
-helm install metrics-server metrics-server/metrics-server --version 3.11.0 --namespace kube-system --set "args={'--kubelet-insecure-tls','--kubelet-preferred-address-types=InternalIP'}"
-Aguarde cerca de 1 a 2 minutos para o pod do Metrics Server subir e começar a coletar métricas.
-
-Implante o Horizontal Pod Autoscaler (HPA):
-
-kubectl apply -f spring-app-hpa.yaml
-
-Verifique o status de todos os pods:
-
-kubectl get pods -A
-
-Aguarde até que todos os pods (incluindo postgres-db, spring-app e metrics-server no namespace kube-system) estejam com o status Running.
-
-Inicialize o banco de dados:
-
-Execute o script SQL principal para popular o banco de dados. Você pode usar um cliente PostgreSQL (como o psql ou DBeaver) e conectar-se ao banco de dados exposto pelo Kubernetes (geralmente localhost:30001 se você configurou o serviço do banco de dados para NodePort, ou acessar via kubectl port-forward).
-Se carga do bando de dados não for feita automático   script está localizado em: SistemaPedidos\script\script.sql
+📋 Fluxo do Pedido (Status)
+O sistema segue uma máquina de estados estrita para garantir a consistência:
+1.	RECEBIDO: Pedido criado, aguardando pagamento.
+2.	PREPARO: Pagamento confirmado via Webhook, enviado para cozinha.
+3.	PRONTO: Preparo finalizado, aguardando retirada.
+4.	FINALIZADO: Pedido entregue ao cliente.
+5.	CANCELADO: Caso o pagamento seja recusado ou cancelado manualmente.
+Nota: A listagem de pedidos (GetAllOrders) prioriza pedidos PRONTOS > PREPARO > RECEBIDO e filtra os finalizados/cancelados.
+🔌 API Endpoints (Resumo)
+Método	Endpoint	Descrição
+POST	/orders	Cria um novo pedido e gera QR Code
+GET	/orders	Lista fila de pedidos (Ordenada por prioridade)
+GET	/orders/{id}	Busca detalhes de um pedido
+PATCH	/orders/{id}/advance	Avança o status do pedido
+POST	/webhook/payment	Recebe notificação de pagamento do Mercado Pago
+______________________________________________________________________________
 
 Acesso ao Frontend da Aplicação:
 
 Abra o arquivo index.html, webhook ou stress.html diretamente no seu navegador. As interfaces carregarão os dados da API.
-
-Acesso a Documentação da API (Swagger UI):
-
-A documentação interativa completa da API está disponível em:
-http://localhost:30001/swagger-ui.html
-
-Teste de Estresse e Validação de Autoscaling (Opcional):
-
-Na página stress.html, clique no botão "Iniciar Teste Simples" para simular uma carga intensa de requisições na sua API.
-Em um terminal separado, monitore o comportamento do HPA em tempo real:
-kubectl get hpa spring-app-hpa -w
-Observe como a coluna TARGETS (utilização de CPU) aumenta e, em resposta, a coluna REPLICAS (número de pods) irá escalar automaticamente para lidar com a carga.
-
-
 
