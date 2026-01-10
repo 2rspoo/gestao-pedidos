@@ -8,7 +8,7 @@ Vídeo:
 https://www.youtube.com/watch?v=oYuT7maHG5g
 
 Repositório:
-https://github.com/CRASPOO/SistemaPedidos
+https://github.com/2rspoo/gestao-pedidos
 
 # 🍔 API de Gestão de Pedidos 
 Este projeto é um microsserviço para gestão de pedidos de uma lanchonete, desenvolvido seguindo os princípios da **Arquitetura Hexagonal (Ports and Adapters)**. O sistema gerencia o ciclo de vida do pedido, desde a recepção, pagamento (integração com Mercado Pago), preparação até a finalização.
@@ -99,5 +99,6 @@ ______________________________________________________________________________
 Acesso ao Frontend da Aplicação:
 
 Abra o arquivo index.html, webhook ou stress.html diretamente no seu navegador. As interfaces carregarão os dados da API.
+
 
 
