@@ -2,6 +2,7 @@ Grupo 96
 
 Contribuições:
 Camila Rabello Spoo Goshima - Discord: camilaspoo - 11 973091025
+
 Rodrigo Rabello Spoo - Discord: srsinistro9459 - 11 981046096
 
 Vídeo:
@@ -101,6 +102,7 @@ ______________________________________________________________________________
 ## Acesso ao Frontend da Aplicação:
 
 Abra o arquivo index.html, webhook ou stress.html diretamente no seu navegador. As interfaces carregarão os dados da API.
+
 
 
 
