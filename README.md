@@ -79,6 +79,7 @@ http://localhost:63342/gestao-pedidos/cardapio/target/site/jacoco/index.html?_ij
 Para enviar as métricas para o SonarQube (certifique-se de ter um servidor Sonar rodando):
 Bash
 mvn clean verify sonar:sonar -Dsonar.token=SEU_TOKEN
+<img width="1125" height="193" alt="image" src="https://github.com/user-attachments/assets/95fe07d0-8185-4a0f-849f-03936c152654" />
 
 ### 📋 Fluxo do Pedido (Status)
 O sistema segue uma máquina de estados estrita para garantir a consistência:
@@ -102,6 +103,7 @@ ______________________________________________________________________________
 ## Acesso ao Frontend da Aplicação:
 
 Abra o arquivo index.html, webhook ou stress.html diretamente no seu navegador. As interfaces carregarão os dados da API.
+
 
 
 
